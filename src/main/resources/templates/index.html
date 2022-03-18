@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:td="http://www.w3.org/1999/XSL/Transform"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5>">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Managment App</title>
+    <link rel ="stylesheet" type="text/css" th:href ="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class ="container-fluid text-center">
+    <div  class="container my-2">
+        <a th:href="@{/login}">Log in</a>
+        <h1>Movie List</h1>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th>Movie title</th>
+                        <th>Movie category</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="movie:${moviesList}">
+                        <td th:text="${movie.movie_name}"></td>
+                        <td th:text="${movie.movie_category.category.category_name}"></td>
+                        <td>
+                            <div sec:authorize="isAuthenticated()">
+                            <a th:href="@{' /edit_movie/ ' + ${movie.movie_id}}">Edit</a>
+                            &nbsp;
+                            <a th:href="@{' /delete_movie/ ' + ${movie.movie_id}}"  style="color:red">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div sec:authorize="isAuthenticated()">
+            <a th:href = "@{/new_movie}" class="btn btn-primary btn-sm mb-3">Add Movie</a>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+            <h1>Category List</h1>
+            <table class="table table-dark">
+                <thead>
+                <tr>
+                    <th>Categories</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="category:${categoryList}">
+                    <td th:text="${category.category_name}"></td>
+                    <td>
+                        <div sec:authorize="hasRole('ADMIN')">
+                            <a th:href="@{' /edit_category/ ' + ${category.category_id}}">Edit</a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+                <div sec:authorize="hasRole('ADMIN')">
+                    <a th:href = "@{/new_category}" class="btn btn-primary btn-sm mb-3">Add Category</a>
+                </div>
+            </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:td="http://www.w3.org/1999/XSL/Transform">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Category</title>
+    <link rel ="stylesheet" type="text/css" th:href ="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1>Movie Managment App</h1>
+    <hr>
+    <h2>Edit Category</h2>
+
+    <form  th:action="@{/index/addcategory}" th:object="${category}" method="POST">
+        <input type="hidden" th:field="*{category_id}" th:value="${category.category_id}"/>
+        <label class="col-form-label col-sm-4">Category Name:</label>
+        <input type="text" th:field="*{category_name}" placeholder="Category name" class="form-control mb-4 col-4" required >
+
+        <button type="submit" class="btn btn-info col-2">Edit Category</button>
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -5,15 +5,19 @@ import com.moviemanager.moviemanager.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.Collections;
 
 public class MyUserDetails implements UserDetails {
     private User user;
+    PasswordEncoder passwordEncoder;
 
     public MyUserDetails(User user){
         this.user=user;
+        this.passwordEncoder= new BCryptPasswordEncoder();
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -25,7 +29,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return this.passwordEncoder.encode(user.getPassword());
     }
 
     @Override
